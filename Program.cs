@@ -170,6 +170,46 @@ public class Program
                 }
                 Console.WriteLine("=================");
                 Console.WriteLine("");
+                //Dungeon minigame
+            else if (option == 2)
+                {
+                    for (int i = 1; i < 4; i++)
+                    {
+                        correctPassword = rand.Next(1, 5);
+                        for (int j = 1; j < 4; j++)
+                        {
+
+                            Console.WriteLine(CurrentDoor + i);
+                            Console.WriteLine(DoorCurrentTry + j);
+
+                            Console.WriteLine(DoorMsg);
+                            password = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("===================");
+
+                            if (password == correctPassword)
+                            {
+                                Console.WriteLine(DoorUnlocked);
+                                j = 4;
+                                if (i == 3)
+                                {
+                                    Console.WriteLine(DoorWin);
+                                    unlockMine = true;
+                                }
+                            }
+                            else if (j == 3)
+                            {
+                                Console.WriteLine(DoorFailed);
+                                i = 4;
+                            }
+                            else
+                            {
+                                Console.WriteLine(DoorTryAgain);
+                            }
+                        }
+
+                    }
+                }
+                
             }
             
 
