@@ -209,7 +209,45 @@ public class Program
 
                     }
                 }
-                
+                else if (option == 3)
+                {
+                    if (!unlockMine)
+                    {
+                        Console.WriteLine(MineNotUnlocked);
+                        Console.WriteLine(MineKick);
+                    }
+                    else
+                    {
+                        Console.WriteLine(MineGreeting);
+                        Console.WriteLine(MineCongrats);
+                        for (int i = 1; i < 6; i++)
+                        {
+                            int j = rand.Next(1, 100);
+                            if (j <= 20)
+                            {
+                                bitcoins += rand.Next(5, 50);
+                                Console.WriteLine(BitcoinsFound + j + " bitcoins!");
+
+                            }
+                            else
+                            {
+                                Console.WriteLine(BitcoinsNotFound);
+                            }
+                            Console.WriteLine(TotalBitcoins + bitcoins + " bitcoins!");
+                            Console.WriteLine("---------------------");
+                        }
+                        if (bitcoins >= 200)
+                        {
+                            Console.WriteLine(GoldenGPU);
+                        }
+                        else
+                        {
+                            Console.WriteLine(TrashGPU);
+                        }
+                    }
+
+                }
+
             }
             
 
