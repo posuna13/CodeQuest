@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Numerics;
+using System.Text;
 
 public class Program
 {
 
     static void Main()
     {
+        Console.OutputEncoding = Encoding.UTF8;
         var rand = new Random();
         const string MenuTitle = "===== MAIN MENU - CODEQUEST =====";
         const string MenuOption1 = "1. Train your wizard";
@@ -38,6 +40,7 @@ public class Program
         const string DoorMsg = "You find a door in front of you. You have 3 tries to correctly input the magical code to unlock it (int 1-5): ";
         const string CurrentDoor = "You are on door number: ";
         const string DoorCurrentTry = "You are on try: ";
+        const string DungeonErr = "Errorr: you must input a number between 1-5";
         const string DoorUnlocked = "You have correctly guessed the magical code, the dragon let's you through!";
         const string DoorTryAgain = "That's not the correct code, try again.";
         const string DoorFailed = "🐲 You failed to open the door, the dragon kicks you from the server!";
@@ -88,6 +91,152 @@ public class Program
                 // Si arribem aquí no ha saltat cap excepció: entrada vàlida
                 isValid = true;
                 Console.WriteLine($"You chose: {option}");
+
+                //Train the wizard
+
+                if (option == 1)
+                {
+
+                    if (!hasName)
+                    {
+                        Console.WriteLine(InputWizardName);
+                        wizardName = Console.ReadLine();
+                        hasName = true;
+                        Console.WriteLine("-------------------");
+                    }
+
+                    for (int i = 1; i < 6; i++)
+                    {
+                        Console.WriteLine(Greeting + wizardName + "!");
+                        Console.WriteLine(DayCount + i);
+
+
+                        trainingHours = rand.Next(1, 24);
+                        power += rand.Next(1, 10);
+                        lastLevel = level;
+                        level = 1 + (power / 10);
+
+                        Console.WriteLine(wizardName + TrainingResult1 + trainingHours + TrainingResult2 + power + "!");
+                        if (level > lastLevel)
+                        {
+                            Console.WriteLine(wizardName + LevelUp + level + "!");
+                        }
+                        Console.WriteLine("===================");
+                        Console.WriteLine("");
+                    }
+                    if (power < 20)
+                    {
+                        Console.WriteLine(FailedTraining);
+                        Console.WriteLine(RankF);
+                    }
+                    else if (power >= 20 && power < 30)
+                    {
+                        Console.WriteLine(PassTraining);
+                        Console.WriteLine(RankD);
+                    }
+                    else if (power >= 30 && power < 35)
+                    {
+                        Console.WriteLine(DecentTraining);
+                        Console.WriteLine(RankC);
+                    }
+                    else if (power >= 35 && power < 40)
+                    {
+                        Console.WriteLine(GoodTraining);
+                        Console.WriteLine(RankB);
+                    }
+                    else if (power >= 40)
+                    {
+                        Console.WriteLine(ExcellentTraining);
+                        Console.WriteLine(RankA);
+                    }
+                    Console.WriteLine("=================");
+                    Console.WriteLine("");
+                }
+                //Dungeon minigame
+                else if (option == 2)
+                {
+                    for (int i = 1; i < 4; i++)
+                    {
+                        correctPassword = rand.Next(1, 5);
+                        for (int j = 1; j < 4; j++)
+                        {
+
+                            Console.WriteLine(CurrentDoor + i);
+                            Console.WriteLine(DoorCurrentTry + j);
+
+                            Console.WriteLine(DoorMsg);
+                            password = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("===================");
+
+
+                            if (password > 5 | password < 1)
+                            {
+                                Console.WriteLine(DungeonErr);
+                                j--;
+                            }
+                            
+                            else if (password == correctPassword)
+                            {
+                                Console.WriteLine(DoorUnlocked);
+                                j = 4;
+                                if (i == 3)
+                                {
+                                    Console.WriteLine(DoorWin);
+                                    unlockMine = true;
+                                }
+                            }
+                            else if (j == 3)
+                            {
+                                Console.WriteLine(DoorFailed);
+                                i = 4;
+                            }
+                            else
+                            {
+                                Console.WriteLine(DoorTryAgain);
+                            }
+                        }
+
+                    }
+                }
+                else if (option == 3)
+                {
+                    if (!unlockMine)
+                    {
+                        Console.WriteLine(MineNotUnlocked);
+                        Console.WriteLine(MineKick);
+                    }
+                    else
+                    {
+                        Console.WriteLine(MineGreeting);
+                        Console.WriteLine(MineCongrats);
+                        for (int i = 1; i < 6; i++)
+                        {
+                            int j = rand.Next(1, 100);
+                            if (j <= 20)
+                            {
+                                bitcoins += rand.Next(5, 50);
+                                Console.WriteLine(BitcoinsFound + j + " bitcoins!");
+
+                            }
+                            else
+                            {
+                                Console.WriteLine(BitcoinsNotFound);
+                            }
+                            Console.WriteLine(TotalBitcoins + bitcoins + " bitcoins!");
+                            Console.WriteLine("---------------------");
+                        }
+                        if (bitcoins >= 200)
+                        {
+                            Console.WriteLine(GoldenGPU);
+                        }
+                        else
+                        {
+                            Console.WriteLine(TrashGPU);
+                        }
+                    }
+
+                }
+
             }
             catch (FormatException)              // Text que no és un número: "abc", "3.5", ""
             {
@@ -111,143 +260,7 @@ public class Program
                 Console.WriteLine("----------------------------");
             }
 
-            //Train the wizard
-
-            if (option == 1)
-            {
-
-                if (!hasName)
-                {
-                    Console.WriteLine(InputWizardName);
-                    wizardName = Console.ReadLine();
-                    hasName = true;
-                    Console.WriteLine("-------------------");
-                }
-
-                for (int i = 1; i < 6; i++)
-                {
-                    Console.WriteLine(Greeting + wizardName + "!");
-                    Console.WriteLine(DayCount + i);
-
-
-                    trainingHours = rand.Next(1, 24);
-                    power += rand.Next(1, 10);
-                    lastLevel = level;
-                    level = 1 + (power / 10);
-
-                    Console.WriteLine(wizardName + TrainingResult1 + trainingHours + TrainingResult2 + power + "!");
-                    if (level > lastLevel)
-                    {
-                        Console.WriteLine(wizardName + LevelUp + level + "!");
-                    }
-                    Console.WriteLine("===================");
-                    Console.WriteLine("");
-                }
-                if (power < 20)
-                {
-                    Console.WriteLine(FailedTraining);
-                    Console.WriteLine(RankF);
-                }
-                else if (power >= 20 && power < 30)
-                {
-                    Console.WriteLine(PassTraining);
-                    Console.WriteLine(RankD);
-                }
-                else if (power >= 30 && power < 35)
-                {
-                    Console.WriteLine(DecentTraining);
-                    Console.WriteLine(RankC);
-                }
-                else if (power >= 35 && power < 40)
-                {
-                    Console.WriteLine(GoodTraining);
-                    Console.WriteLine(RankB);
-                }
-                else if (power >= 40)
-                {
-                    Console.WriteLine(ExcellentTraining);
-                    Console.WriteLine(RankA);
-                }
-                Console.WriteLine("=================");
-                Console.WriteLine("");
-            }
-            //Dungeon minigame
-            else if (option == 2)
-            {
-                for (int i = 1; i < 4; i++)
-                {
-                    correctPassword = rand.Next(1, 5);
-                    for (int j = 1; j < 4; j++)
-                    {
-
-                        Console.WriteLine(CurrentDoor + i);
-                        Console.WriteLine(DoorCurrentTry + j);
-
-                        Console.WriteLine(DoorMsg);
-                        password = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("===================");
-
-                        if (password == correctPassword)
-                        {
-                            Console.WriteLine(DoorUnlocked);
-                            j = 4;
-                            if (i == 3)
-                            {
-                                Console.WriteLine(DoorWin);
-                                unlockMine = true;
-                            }
-                        }
-                        else if (j == 3)
-                        {
-                            Console.WriteLine(DoorFailed);
-                            i = 4;
-                        }
-                        else
-                        {
-                            Console.WriteLine(DoorTryAgain);
-                        }
-                    }
-
-                }
-            }
-            else if (option == 3)
-            {
-                if (!unlockMine)
-                {
-                    Console.WriteLine(MineNotUnlocked);
-                    Console.WriteLine(MineKick);
-                }
-                else
-                {
-                    Console.WriteLine(MineGreeting);
-                    Console.WriteLine(MineCongrats);
-                    for (int i = 1; i < 6; i++)
-                    {
-                        int j = rand.Next(1, 100);
-                        if (j <= 20)
-                        {
-                            bitcoins += rand.Next(5, 50);
-                            Console.WriteLine(BitcoinsFound + j + " bitcoins!");
-
-                        }
-                        else
-                        {
-                            Console.WriteLine(BitcoinsNotFound);
-                        }
-                        Console.WriteLine(TotalBitcoins + bitcoins + " bitcoins!");
-                        Console.WriteLine("---------------------");
-                    }
-                    if (bitcoins >= 200)
-                    {
-                        Console.WriteLine(GoldenGPU);
-                    }
-                    else
-                    {
-                        Console.WriteLine(TrashGPU);
-                    }
-                }
-                
-            }
+            
 
 
             // Repetim si l'entrada ha estat invàlida O si no han demanat sortir.
